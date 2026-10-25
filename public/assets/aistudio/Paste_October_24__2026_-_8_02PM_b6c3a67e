@@ -1,0 +1,980 @@
+# BUILD PAIRARENA AI — A COMPLETE FULL-STACK CODING, LEARNING & LIVE INTERVIEW PLATFORM
+
+Act as a senior full-stack engineer, software architect, UI/UX designer, AI engineer, database engineer, and security specialist.
+
+Build a complete, production-minded web application named **PairArena AI**.
+
+PairArena AI is an all-in-one platform combining:
+1. Live collaborative coding interviews.
+2. A multi-language online compiler and code editor.
+3. DSA practice, coding challenges, contests, and assessments.
+4. Structured learning paths for DSA, full-stack development, AI/ML, GenAI, RAG, system design, and computer science fundamentals.
+5. AI tutoring powered by the Gemini API.
+6. Learning resources and relevant YouTube recommendations.
+7. Performance analytics, session recordings, and downloadable PDF reports.
+8. User accounts, personalized dashboards, saved progress, and revision tools.
+
+This must be a real, functioning full-stack application, not a static landing page, UI prototype, or collection of non-functional buttons.
+
+IMPORTANT: Prioritize a working end-to-end core product. Implement features in coherent phases, but do not silently replace missing integrations with fake data or pretend that an unfinished feature works.
+
+---
+
+# 1. PRODUCT BRANDING AND UI DESIGN
+
+Product name: PairArena AI
+
+Tagline: Learn. Practice. Collaborate. Get Interview-Ready.
+
+Design a premium developer-focused SaaS experience inspired by the usability of modern coding platforms and developer tools. Do not copy any existing product's branding or exact interface.
+
+Visual direction:
+- Deep navy and charcoal surfaces with subtle violet, cyan, and electric-blue accents.
+- High-contrast editor and readable code typography.
+- Optional light and dark themes.
+- Professional dashboard cards, clear typography, subtle motion, and responsive layouts.
+- Proper empty states, loading skeletons, error messages, success feedback, and confirmation dialogs.
+- Desktop-first coding workspace with a mobile-friendly learning and dashboard experience.
+- Accessible keyboard navigation, focus states, and readable contrast.
+- Collapsible sidebar, breadcrumbs, search, notifications, profile menu, and global command palette.
+- Consistent reusable design system rather than separate styles for every page.
+
+Create an original logo and cohesive visual identity. The interface must feel polished and credible enough to demonstrate in a software engineering interview.
+
+# 2. REQUIRED TECHNOLOGY STACK
+
+Frontend:
+- React
+- TypeScript with strict typing
+- Vite
+- Tailwind CSS
+- React Router
+- Monaco Editor using @monaco-editor/react
+- TanStack Query for server state and caching
+- Zustand or a similarly lightweight state manager
+- Framer Motion for restrained animations
+- Socket.IO client for live sessions
+- Recharts for analytics
+- React Hook Form and Zod for form validation
+- A reliable PDF-generation library or server-side PDF generation
+
+Backend:
+- Node.js
+- Express
+- TypeScript
+- MongoDB Atlas
+- Mongoose
+- Socket.IO
+- Zod request validation
+- Secure password hashing with Argon2 or bcrypt
+- JWT authentication using secure HTTP-only cookies
+- Centralized error handling and structured logging
+
+External integrations:
+- Gemini API for tutoring, explanations, code assistance, quiz generation, and personalized revision.
+- Judge0 API or another documented sandboxed compiler API for actual multi-language code execution.
+- YouTube Data API v3 where configured for video recommendations and metadata.
+- A server-side PDF generation solution for performance reports.
+- Optional email service for verification and interview invitations.
+
+Use compatible, maintained package versions. If the hosting environment cannot support a particular dependency or long-lived WebSocket connection, implement an appropriate supported alternative and document the limitation.
+
+# 3. AUTHENTICATION AND USER MANAGEMENT
+
+Implement complete authentication:
+- Sign up with name, email, password, and optional profile information.
+- Login and logout.
+- Email verification when an email provider is configured.
+- Forgot password and reset password flows.
+- Secure password hashing.
+- HTTP-only, Secure-in-production, SameSite cookies.
+- Server-side session/token validation.
+- Protected pages and APIs.
+- Profile editing, avatar, bio, target role, skill level, and learning goals.
+- User preferences for theme, editor font size, default programming language, and notifications.
+- Account deletion and data export.
+- Role-based permissions for learners, interviewers, and administrators.
+- Google OAuth only if credentials and callbacks are configured.
+
+Never store plaintext passwords. Never put JWT signing secrets, MongoDB credentials, Gemini keys, or compiler API keys in frontend code.
+
+Create a proper onboarding flow asking the user about their current skill level, target role, preferred programming language, and learning goals.
+
+# 4. APPLICATION PAGES AND ROUTES
+
+Implement distinct, fully navigable pages.
+
+Public:
+- /
+- /features
+- /learning-paths
+- /practice
+- /contests
+- /interview-prep
+- /pricing or /plans if monetization is implemented
+- /login
+- /signup
+- /forgot-password
+
+Authenticated:
+- /dashboard
+- /editor
+- /problems
+- /problems/:slug
+- /contests/:id
+- /interviews
+- /interviews/create
+- /interviews/:roomId
+- /sessions/:sessionId/review
+- /learn
+- /learn/:track
+- /learn/:track/:topic
+- /revision
+- /flashcards
+- /assessments
+- /assessments/:id
+- /ai-tutor
+- /resources
+- /bookmarks
+- /analytics
+- /reports
+- /profile
+- /settings
+- /notifications
+
+Administrator:
+- /admin
+- /admin/content
+- /admin/questions
+- /admin/users
+- /admin/reports
+
+Build appropriate navigation, page titles, breadcrumbs, loading states, route guards, and useful empty states. Every visible navigation item must lead somewhere meaningful.
+
+# 5. MAIN DASHBOARD
+
+Create a personalized dashboard showing:
+- Current learning streak.
+- Total practice problems attempted and solved.
+- Acceptance rate based on actual recorded submissions.
+- Recent assessments and scores.
+- Current learning paths and completion percentage.
+- Topic-wise strengths and weaknesses.
+- Upcoming scheduled interviews and contests.
+- Recently saved questions and revision cards.
+- Recent coding activity.
+- Weekly study-time chart based on recorded activity.
+- Recommended next topics.
+- AI-generated revision suggestions based on actual user progress.
+- Quick actions: Practice DSA, Open Compiler, Start Mock Interview, Learn a Topic, Ask AI.
+
+All user-specific dashboard information must come from the authenticated user's database records. Clearly label empty data; never invent progress or scores.
+
+# 6. LIVE COLLABORATIVE INTERVIEW ROOM — THE CORE FEATURE
+
+Build a real-time interview room.
+
+Room creation:
+- Interviewer creates a room.
+- Configure title, description, duration, question, difficulty, allowed languages, and participant permissions.
+- Generate a unique room code and shareable invitation URL.
+- Allow the candidate to join with authorization.
+- Provide waiting room, lobby, connection status, and participant list.
+- Support interviewer, candidate, and optional observer roles.
+
+Live interview workspace:
+- Collaborative Monaco code editor.
+- Real-time code synchronization using Socket.IO.
+- Visible participant presence and connection indicators.
+- Language selection.
+- Custom input panel.
+- Run Code and Submit Solution buttons.
+- Console output and compilation error panels.
+- Problem description and examples.
+- Resizable panels and fullscreen editor.
+- Interview timer with pause/resume permissions.
+- Interviewer controls for start, pause, end, and time extension.
+- Private interviewer notes.
+- Text chat and interview event timeline.
+- Candidate can share code and run permitted test cases.
+- Interviewer can run authorized hidden tests.
+- Session autosave and recovery after a refresh or temporary disconnect.
+
+Use server-authoritative room state, authorization checks, version numbers or sequence numbers, and appropriate conflict handling. Do not rely exclusively on frontend state.
+
+Implement reconnection and state recovery so participants can resume the session after a temporary network failure.
+
+## 6A. REAL CODE EXECUTION IN THE INTERVIEW ROOM
+
+Integrate a real compiler execution API, preferably Judge0.
+
+Required behavior:
+1. User selects a programming language.
+2. User writes code in Monaco Editor.
+3. User clicks Run Code.
+4. The backend validates the request and forwards it to the compiler provider.
+5. The provider executes the code in its sandbox.
+6. The backend retrieves the execution result.
+7. The UI displays actual stdout, stderr, compile errors, exit status, execution time, and memory usage when provided.
+8. Loading, timeout, rate-limit, unsupported-language, and provider-error states are handled correctly.
+
+Support common languages where the configured compiler provider supports them, including:
+- C
+- C++
+- Java
+- Python
+- JavaScript
+- TypeScript
+- C#
+- Go
+- Rust
+- Kotlin
+- PHP
+- Ruby
+- Swift, where available
+- SQL through a separate, safe SQL execution strategy if implemented
+
+Fetch supported language IDs from the compiler provider when possible. Do not hardcode unsupported language IDs or assume every language is available.
+
+Provide language-specific starter code and reasonable editor defaults. Ensure Java class names, C++ standards, Python versions, and other runtime details are compatible with the provider configuration.
+
+Use submission tokens and poll or retrieve execution results according to the provider's documented behavior. Respect quotas, request timeouts, and rate limits.
+
+The compiler integration must remain on the server side. Never expose a provider secret to the browser.
+
+## 6B. TEST CASES AND SUBMISSION GRADING
+
+Support:
+- Custom input for Run Code.
+- Public example test cases.
+- Multiple visible test cases.
+- Hidden test cases for assessments and interviews.
+- Actual verdicts such as Accepted, Wrong Answer, Compilation Error, Runtime Error, Time Limit Exceeded, and Internal Error where supported.
+- Test-case pass/fail summaries.
+- Submission history.
+- Code snapshots and timestamps.
+- Execution metrics returned by the provider.
+
+Hidden test inputs and expected outputs must remain server-side. Do not send hidden test cases to the candidate's browser.
+
+For coding challenge evaluation, compare actual execution results with expected outputs using problem-specific normalization rules. Do not claim a solution is correct based on AI opinion alone.
+
+Enforce execution time, memory, output-size, request-size, and rate limits. Never execute arbitrary user code directly inside the main Node.js application process.
+
+# 7. EDITOR EXPERIENCE AND DEVELOPER TOOLS
+
+Implement a dedicated /editor page.
+
+Features:
+- Monaco Editor with syntax highlighting.
+- Language selector and theme selector.
+- Adjustable font size.
+- Tab size and indentation preferences.
+- Auto-completion and editor keyboard shortcuts.
+- Line numbers and minimap toggle.
+- Multiple local editor tabs or saved snippets.
+- Input/output console.
+- Clear console and copy output.
+- Run Code and reset editor actions.
+- Save snippet to the user's account.
+- Autosave drafts where appropriate.
+- Share a saved snippet through an authorized link.
+- Keyboard shortcuts such as Ctrl/Cmd+Enter to run code.
+- Fullscreen mode.
+- Split-screen problem description and code editor.
+- Optional diff view to compare submission versions.
+
+Provide useful starter templates and clearly display the active language and compiler version when known.
+
+Do not imply that Monaco itself executes code. The compiler backend is responsible for execution.
+
+# 8. DSA PRACTICE AND QUESTION BANK
+
+Create a searchable coding problem library.
+
+Filters:
+- Topic
+- Difficulty
+- Programming language
+- Company tag where data is verified
+- Completion status
+- Bookmarked questions
+- Acceptance rate, only if based on real stored submission data
+- Recently added questions
+
+Seed the platform with original or appropriately licensed sample problems, clear explanations, examples, constraints, and test cases. Build a scalable question schema so more problems can be added later.
+
+DSA categories:
+1. Complexity analysis and Big O.
+2. Arrays and matrices.
+3. Strings.
+4. Hashing, maps, and sets.
+5. Two pointers.
+6. Sliding window.
+7. Prefix sums and difference arrays.
+8. Sorting and searching.
+9. Binary search patterns.
+10. Recursion and backtracking.
+11. Linked lists.
+12. Stacks and queues.
+13. Monotonic stack and queue.
+14. Trees and binary search trees.
+15. Heaps and priority queues.
+16. Tries.
+17. Graph traversal: BFS and DFS.
+18. Shortest paths.
+19. Topological sorting.
+20. Union-find and disjoint sets.
+21. Greedy algorithms.
+22. Dynamic programming.
+23. Bit manipulation.
+24. Intervals and sweep-line techniques.
+25. Segment trees and Fenwick trees.
+26. Disjoint sets and advanced graph problems.
+27. String algorithms such as KMP and Z algorithm.
+28. Number theory and combinatorics.
+29. Advanced problem-solving patterns.
+
+Each topic page should include:
+- Clear beginner-friendly explanation.
+- Prerequisites.
+- Intuition and visual examples.
+- Step-by-step dry run.
+- Time and space complexity.
+- Common mistakes.
+- Example code in C++, Java, Python, and JavaScript/TypeScript where practical.
+- Practice problems by difficulty.
+- Mini quiz.
+- Revision summary.
+- Related topics and prerequisites.
+- AI explanation button.
+- Mark as learned and add to revision.
+
+Build problem detail pages with problem statement, constraints, examples, code editor, test cases, submissions, hints, and solution explanations.
+
+Support user-authored notes and bookmarks. Clearly distinguish hints from the full solution so learners can practice independently.
+
+# 9. FULL-STACK DEVELOPMENT LEARNING CENTER
+
+Build a structured, searchable curriculum.
+
+Frontend:
+- HTML and semantic markup.
+- CSS, responsive layouts, Flexbox, Grid, accessibility.
+- JavaScript fundamentals, asynchronous JavaScript, promises, fetch.
+- TypeScript.
+- React, hooks, state management, forms, routing, performance.
+- Browser APIs and frontend testing.
+
+Backend:
+- Node.js and Express.
+- REST API design.
+- Authentication and authorization.
+- JWT and secure cookie practices.
+- Validation and error handling.
+- Pagination, filtering, sorting, and search.
+- File uploads and object storage.
+- WebSockets and real-time applications.
+- Background jobs, queues, and scheduled tasks.
+- Caching and Redis.
+- Logging, monitoring, and rate limiting.
+
+Databases:
+- MongoDB, document modeling, indexes, aggregation, transactions.
+- SQL fundamentals, joins, constraints, indexes, transactions.
+- Query optimization and schema design.
+- Database security, backup, and migration concepts.
+
+Architecture and deployment:
+- Git and GitHub workflows.
+- Unit, integration, and end-to-end testing.
+- Docker fundamentals.
+- CI/CD pipelines.
+- Environment variables and secret management.
+- Cloud deployment.
+- API security.
+- System design and scalability.
+- Load balancing, caching, queues, and observability.
+
+For every topic include lessons, examples, practical exercises, mini-projects, quizzes, interview questions, revision cards, and a completion checklist.
+
+# 10. MACHINE LEARNING, AI, GENAI, RAG, AND LLM LEARNING
+
+Create a comprehensive AI learning section.
+
+Machine learning:
+- Python foundations for ML.
+- NumPy and pandas fundamentals.
+- Data cleaning and preprocessing.
+- Exploratory data analysis.
+- Supervised and unsupervised learning.
+- Linear and logistic regression.
+- Decision trees and ensemble methods.
+- Classification and regression metrics.
+- Train/validation/test splits.
+- Cross-validation.
+- Feature engineering.
+- Overfitting, underfitting, and regularization.
+- Clustering and dimensionality reduction.
+- Model pipelines and deployment basics.
+
+Deep learning:
+- Neural network fundamentals.
+- Backpropagation intuition.
+- Loss functions and optimizers.
+- CNN and sequence model fundamentals.
+- Transformer architecture basics.
+- Embeddings and vector similarity.
+
+Generative AI:
+- LLM fundamentals and tokenization.
+- Prompt engineering.
+- System instructions and structured outputs.
+- Function calling and tool use.
+- Streaming responses.
+- Model selection and evaluation.
+- Context windows and token costs.
+- Safety and hallucination mitigation.
+
+RAG:
+- Document ingestion.
+- PDF and text parsing.
+- Chunking strategies.
+- Embedding generation.
+- Vector search.
+- Metadata filtering.
+- Retrieval quality and reranking.
+- Context assembly.
+- Grounded answers and citations.
+- Evaluation with question-answer datasets.
+- Document update and deletion workflows.
+- Security and access control for retrieved documents.
+
+Advanced topics:
+- AI agents and tool orchestration.
+- Model evaluation and benchmarks.
+- Fine-tuning concepts.
+- Multimodal AI.
+- AI observability.
+- Prompt injection defense.
+- LLM application security.
+- Cost and latency optimization.
+
+Each topic must contain a structured lesson, examples, diagrams or interactive visualizations where appropriate, practical exercises, quizzes, interview questions, flashcards, and a revision summary.
+
+Do not label an AI-generated answer as a verified fact. Link references when available and explain uncertainty where appropriate.
+
+# 11. SYSTEM DESIGN AND COMPUTER SCIENCE LIBRARY
+
+Add dedicated learning paths for:
+- Operating systems.
+- DBMS.
+- Computer networks.
+- Object-oriented programming.
+- Software engineering principles.
+- Design patterns.
+- Low-level design.
+- High-level system design.
+- API design.
+- Distributed systems fundamentals.
+- Concurrency and synchronization.
+- Scalability, reliability, and fault tolerance.
+- Caching, queues, and consistency models.
+- Security fundamentals.
+
+Include interview-oriented notes, diagrams, MCQs, short-answer questions, scenario-based exercises, and revision cards.
+
+# 12. AI TUTOR — ASK ANY TOPIC
+
+Build a dedicated Gemini-powered assistant named Arena AI.
+
+Users can ask about any educational or technical topic, including:
+- DSA and competitive programming.
+- Frontend and backend development.
+- System design.
+- Databases and APIs.
+- Machine learning.
+- GenAI, LLMs, and RAG.
+- Debugging and compiler errors.
+- Career and interview preparation.
+- General knowledge and other reasonable questions.
+
+Features:
+- Conversational chat with persisted history.
+- Streaming answers where supported.
+- Code blocks with syntax highlighting and copy buttons.
+- Clear step-by-step explanations.
+- Beginner, intermediate, and advanced explanation modes.
+- Hinglish and English response preferences.
+- Generate examples and practice questions.
+- Explain the user's pasted code.
+- Suggest debugging steps.
+- Generate flashcards and revision notes.
+- Generate a quiz from a conversation.
+- Summarize a topic.
+- Save responses to notes.
+- Context-aware follow-up questions.
+- Delete or rename conversations.
+- Stop generation and retry failed requests.
+
+Use the Gemini API from backend routes only. In Google AI Studio, use the configured server-side Gemini secret when available; otherwise instruct the developer to add GEMINI_API_KEY through the secrets manager.
+
+Make the model configurable through a server-side environment variable such as GEMINI_MODEL. Use a currently available model ID supported by the configured account, handle quota and provider errors, and do not hardcode an obsolete model ID.
+
+Implement request validation, rate limits, safe prompt construction, output limits, and useful user-facing error states.
+
+Do not expose API keys in browser bundles, logs, error responses, or generated reports.
+
+# 13. PERSONALIZED REVISION ENGINE
+
+Create a dedicated Revision Center.
+
+Features:
+- Saved notes from every learning path.
+- Flashcards using spaced-repetition scheduling.
+- Due today, overdue, and upcoming review sections.
+- Wrong-answer notebook.
+- Previously failed coding questions.
+- Bookmarked concepts and code snippets.
+- Topic-wise confidence rating.
+- Review reminders.
+- Quick revision mode.
+- Search across notes, flashcards, and saved explanations.
+- Generate concise revision sheets using Gemini.
+- Export selected notes and revision summaries to PDF.
+
+Generate revision recommendations from actual learning history and assessment results, not arbitrary random scores.
+
+Users must be able to edit, archive, and delete their own notes and cards.
+
+# 14. ASSESSMENTS, QUIZZES, AND MOCK INTERVIEWS
+
+Implement:
+- Topic-specific quizzes.
+- Timed DSA assessments.
+- Multiple-choice questions.
+- Multiple-select questions where appropriate.
+- Short-answer questions.
+- Coding questions executed through the compiler provider.
+- Full-stack and backend assessments.
+- Machine learning and AI assessments.
+- System design scenario questions.
+- Randomized question selection from authorized content.
+- Configurable test duration and question count.
+- Auto-submit when time expires.
+- Answer review with explanations.
+- Server-side scoring and stored results.
+- Retry and targeted practice options.
+- Difficulty-aware mock interview sessions.
+- Interview feedback with evidence tied to the submitted answers or code.
+
+For coding assessments, use actual test-case evaluation. Never grade code solely through an LLM.
+
+For subjective answers, AI can provide provisional feedback, but label it clearly and allow human review where appropriate.
+
+Do not expose correct answers or hidden test cases before submission.
+
+# 15. YOUTUBE LEARNING RESOURCES
+
+Create a dedicated Video Learning Hub.
+
+Features:
+- Search videos by topic, language, difficulty, and learning path.
+- Recommend relevant videos for DSA, full-stack, ML, AI, GenAI, RAG, and system design.
+- Store playlists and bookmarked videos.
+- Track watched status and learner notes.
+- Link videos to curriculum topics and revision cards.
+- Display title, channel, thumbnail, duration, and publication information when available from the API.
+- Open videos through a safe, clearly labeled link or an authorized embedded player.
+- Recommend related resources after completing a topic.
+
+Use YouTube Data API v3 through a backend route when YOUTUBE_API_KEY is configured.
+
+Provide a clear setup guide for the API key and required quota configuration.
+
+If the YouTube API is unavailable or quota is exceeded, show an honest fallback with a search link to YouTube for the requested topic. Never invent video IDs, channel names, view counts, or recommendations and present them as verified results.
+
+Allow curated learning resources to be added by an administrator with title, URL, language, category, and verification status.
+
+# 16. PERFORMANCE RECORDING AND DOWNLOADABLE PDF REPORTS
+
+Build a Performance and Session Review section.
+
+Record structured events such as:
+- Session start and end.
+- Question opened.
+- Language selected.
+- Code saved and submitted.
+- Compiler verdict.
+- Test-case results.
+- Hints requested.
+- Interviewer feedback.
+- Assessment start and completion.
+- Topic revision activity.
+- Relevant timestamps and durations.
+
+Where possible, reconstruct an interactive session timeline from saved code snapshots and event logs. Provide play, pause, and seek controls for event replay.
+
+Optionally support interview audio/video recording only when explicit consent has been obtained from every required participant and the browser has granted the relevant permissions. Clearly show recording status, provide a stop button, define retention and deletion controls, and never record covertly. If reliable media recording or storage is unavailable, provide event replay instead and label it accurately.
+
+## PDF performance report
+
+Add a Download PDF Report action.
+
+Generate a real downloadable PDF containing:
+- User name and report date.
+- Assessment or interview title.
+- Session duration.
+- Questions attempted and completed.
+- Correct and incorrect test cases.
+- Compiler verdicts and submission summaries.
+- Per-question time spent.
+- Topic-wise performance.
+- Strengths and improvement areas.
+- Relevant complexity analysis where available.
+- Interviewer feedback, if provided.
+- Learning recommendations.
+- Revision plan and next steps.
+
+For mock interviews, include structured feedback for problem-solving, correctness, edge cases, code quality, communication, and complexity analysis.
+
+Only report metrics that can be supported by stored events and compiler results. If a metric is unavailable, display “Not recorded” rather than inventing a number.
+
+Provide:
+- Download PDF.
+- Printable report view.
+- Report history.
+- Report deletion.
+- Appropriate authorization so users can only access their own reports unless an authorized interviewer or administrator has access.
+
+# 17. ANALYTICS AND PERFORMANCE INSIGHTS
+
+Create interactive charts for:
+- Weekly coding activity.
+- Problems solved over time.
+- Assessment score history.
+- Topic-wise accuracy.
+- Compiler verdict distribution.
+- Time spent by learning path.
+- Learning path completion.
+- Revision consistency.
+- Mock interview history.
+
+Use real persisted data and date-aware aggregation. Explain the calculation behind key metrics.
+
+AI-generated insights may suggest which topics to practice next, but should use actual stored performance data as input.
+
+# 18. DATABASE DESIGN — MONGODB ATLAS
+
+Use Mongoose models with validation, timestamps, and suitable indexes.
+
+Create models or equivalent collections for:
+- User
+- UserPreference
+- LearningPath
+- Topic
+- Lesson
+- Resource
+- Problem
+- TestCase
+- Submission
+- CodeSnippet
+- InterviewRoom
+- InterviewParticipant
+- InterviewEvent
+- CodeSnapshot
+- InterviewFeedback
+- Assessment
+- AssessmentAttempt
+- QuizQuestion
+- UserProgress
+- RevisionCard
+- UserNote
+- Bookmark
+- ChatConversation
+- ChatMessage
+- VideoResource
+- PerformanceReport
+- Notification
+- AuditLog
+
+Use appropriate references, unique indexes, compound indexes, pagination, and data ownership checks.
+
+Store hidden test cases securely and exclude them from public API responses.
+
+Avoid storing large media blobs directly in MongoDB; use suitable object storage and store authorized metadata and references.
+
+Create a seed script for original learning content, sample DSA problems, lessons, and example assessments. Seed content must be clearly identified as sample or curated content.
+
+Do not seed fake user activity or pretend that sample interview results belong to real users.
+
+# 19. BACKEND API DESIGN
+
+Create documented REST endpoints under /api/v1.
+
+Auth:
+- POST /auth/register
+- POST /auth/login
+- POST /auth/logout
+- POST /auth/forgot-password
+- POST /auth/reset-password
+- GET /auth/me
+
+Learning:
+- GET /learning-paths
+- GET /topics
+- GET /topics/:id
+- GET /lessons/:id
+- POST /progress
+- GET /progress/me
+
+Problems and submissions:
+- GET /problems
+- GET /problems/:slug
+- POST /submissions/run
+- POST /submissions/submit
+- GET /submissions/:id
+- GET /submissions/me
+- POST /snippets
+- GET /snippets/me
+
+Interviews:
+- POST /interviews
+- POST /interviews/:id/join
+- GET /interviews/:id
+- POST /interviews/:id/start
+- POST /interviews/:id/end
+- GET /interviews/:id/events
+- POST /interviews/:id/feedback
+
+Assessments:
+- GET /assessments
+- POST /assessments/:id/start
+- POST /assessments/:id/submit
+- GET /assessments/:id/results
+
+AI:
+- POST /ai/chat
+- POST /ai/explain
+- POST /ai/generate-quiz
+- POST /ai/revision-summary
+
+Resources:
+- GET /resources/search
+- GET /resources/youtube
+- POST /resources/bookmark
+
+Reports:
+- POST /reports/generate
+- GET /reports/me
+- GET /reports/:id/pdf
+- DELETE /reports/:id
+
+Also implement routes for profiles, settings, notifications, bookmarks, notes, flashcards, analytics, and administrative content management.
+
+These endpoint names are a proposed contract. Adjust them if necessary for a cleaner architecture, but implement equivalent real functionality and document the final API.
+
+# 20. REAL-TIME SOCKET EVENTS
+
+Implement authenticated, authorized Socket.IO events for:
+- interview:join
+- interview:leave
+- participant:presence
+- code:change
+- code:snapshot
+- timer:update
+- interview:started
+- interview:ended
+- chat:message
+- submission:status
+- notification:new
+
+Validate every event on the server. Verify room membership and role permissions before accepting actions.
+
+Use rooms, throttling, event validation, reconnection, and bounded payload sizes.
+
+Persist important interview events and code snapshots. Do not rely on Socket.IO memory alone for durable session history.
+
+Do not broadcast hidden test inputs, secrets, private interviewer notes, or unauthorized participant data.
+
+# 21. SECURITY AND PRIVACY
+
+Implement:
+- Password hashing.
+- Secure cookie configuration.
+- CSRF protections where required by the chosen cookie-based architecture.
+- CORS allowlisting.
+- Request validation.
+- Rate limiting.
+- Input sanitization.
+- Authorization checks on every protected resource.
+- Safe file upload validation and size limits.
+- Secure secret handling.
+- Output redaction in logs.
+- Safe compiler API proxying.
+- Compiler submission quotas.
+- Protection against oversized output and resource exhaustion.
+- Safe HTML rendering and Markdown sanitization.
+- Ownership checks for reports, chats, snippets, notes, and recordings.
+- Audit events for privileged actions.
+- Account and data deletion workflows.
+
+Never execute user code in the application server. Use a sandboxed compiler provider or a separately isolated execution environment.
+
+Never send hidden test cases or provider secrets to the client.
+
+Do not include private keys or real credentials in sample data, source files, prompts, screenshots, or documentation.
+
+# 22. ENVIRONMENT VARIABLES AND CONFIGURATION
+
+Create a documented .env.example:
+
+NODE_ENV=development
+PORT=5000
+CLIENT_URL=http://localhost:5173
+MONGODB_URI=
+JWT_SECRET=
+COOKIE_SECRET=
+GEMINI_API_KEY=
+GEMINI_MODEL=
+JUDGE0_BASE_URL=
+JUDGE0_API_KEY=
+YOUTUBE_API_KEY=
+EMAIL_PROVIDER_API_KEY=
+STORAGE_ENDPOINT=
+STORAGE_BUCKET=
+STORAGE_ACCESS_KEY=
+STORAGE_SECRET_KEY=
+
+Only require variables for integrations actually enabled in the deployment. Validate required variables at startup with helpful error messages.
+
+Google AI Studio may provide the Gemini API key automatically as a server-side secret. Use the actual secret name configured in the environment, and document it. Do not assume every third-party secret is automatically configured.
+
+Generate separate strong JWT and cookie secrets for deployment. Never commit .env to GitHub.
+
+Do not make unrelated integrations mandatory if they are not needed to run the core application.
+
+# 23. ADMIN PANEL AND CONTENT MANAGEMENT
+
+Create an administrator interface to:
+- Add and edit learning paths.
+- Add lessons, quizzes, and original DSA questions.
+- Manage public test cases and protected hidden test cases.
+- Curate YouTube and external resources.
+- Publish and unpublish content.
+- Review content quality and broken links.
+- Manage authorized user roles.
+- Inspect system health and integration status.
+- View sanitized error summaries.
+- Monitor compiler provider usage and configured limits.
+
+Protect all administrator endpoints with server-side role checks. Do not grant administrator access based on a client-side flag.
+
+# 24. TESTING AND QUALITY ASSURANCE
+
+Add:
+- Unit tests for core business logic.
+- API integration tests.
+- Authentication and authorization tests.
+- Test-case grading tests.
+- Interview room permission tests.
+- Socket.IO synchronization tests.
+- PDF generation tests.
+- Gemini integration error tests.
+- Compiler integration error and timeout tests.
+- Responsive UI and accessibility checks.
+- End-to-end tests for critical user flows.
+
+Test the following complete flows:
+1. Sign up, log in, refresh, and log out.
+2. Save a learning progress record and verify it persists.
+3. Open an editor, execute a real code sample, and display actual output.
+4. Submit a coding problem and evaluate its test cases.
+5. Create an interview room and join it from a second browser.
+6. Edit code in one browser and verify authorized synchronization in the other.
+7. Complete an assessment and verify stored results.
+8. Ask Arena AI a question and receive a real Gemini response.
+9. Search learning videos or display a clear fallback when the YouTube API is unavailable.
+10. Generate and download a valid PDF report.
+11. Verify users cannot access other users' private reports or interview rooms.
+12. Verify application errors do not reveal secrets.
+
+Create an integration status page for administrators that shows configured, unavailable, and misconfigured services without exposing credentials.
+
+# 25. IMPLEMENTATION STRATEGY
+
+Build in these phases:
+
+Phase 1 — Foundation:
+- App structure, design system, routing, MongoDB connection, authentication, seed content, dashboard.
+
+Phase 2 — Editor:
+- Monaco Editor, backend compiler adapter, language discovery, code execution, output console, submissions.
+
+Phase 3 — Learning:
+- DSA question bank, curriculum pages, quizzes, notes, bookmarks, revision cards.
+
+Phase 4 — AI:
+- Gemini tutoring, code explanations, quiz generation, personalized revision.
+
+Phase 5 — Live interviews:
+- Socket.IO rooms, synchronized editor, timers, role permissions, interview event timeline.
+
+Phase 6 — Assessments and reporting:
+- Hidden tests, server-side grading, analytics, session review, PDF generation.
+
+Phase 7 — Resources:
+- YouTube integration, search, bookmarks, curated learning resources.
+
+Phase 8 — Hardening:
+- Security checks, automated tests, error handling, performance, accessibility, deployment configuration.
+
+Build a complete working vertical slice in each phase. Avoid generating a large collection of superficial pages with non-functional controls.
+
+# 26. ACCEPTANCE CRITERIA — DO NOT SKIP
+
+The application is not complete until:
+- A user can create an account and log in securely.
+- User progress persists in MongoDB Atlas.
+- Protected routes and server-side authorization work.
+- Monaco Editor supports multiple configured languages.
+- A real compiler API returns execution results.
+- DSA questions and test cases are stored and usable.
+- Gemini AI responds through the backend.
+- Learning paths include real lesson content, quizzes, and revision features.
+- YouTube search uses actual API results or an honest fallback.
+- Two authorized users can participate in a live interview room.
+- Code synchronization and timer events work in real time.
+- Important interview events are persisted and can be reviewed.
+- Assessments calculate results from real answers and test execution.
+- Performance reports download as valid PDF files.
+- Errors, missing credentials, provider limits, and network failures are handled properly.
+- Secrets and hidden test cases are not exposed.
+- The application builds successfully and critical flows are tested.
+
+When an external API key or database credential is missing, show a clear setup instruction and a disabled or unavailable integration state. Never fake a successful response.
+
+# 27. FINAL BUILD INSTRUCTIONS
+
+Start by examining the available runtime, package setup, and existing files. Then implement the application incrementally.
+
+Do not stop after creating the landing page. Build the actual frontend, backend, data models, routes, socket events, external integrations, and tests.
+
+Create:
+- A clean project structure.
+- A README with setup instructions.
+- An .env.example.
+- MongoDB connection and seed scripts.
+- API documentation.
+- An integration setup guide for Gemini, Judge0, and YouTube.
+- A deployment guide.
+- A testing checklist.
+- A list of features that are complete versus requiring external credentials.
+
+Run the build and tests, fix errors, and verify the main flows before declaring completion.
+
+If a feature cannot be completed in the current runtime, explain the exact limitation and leave a clean, documented integration point rather than pretending it works.
+
+The final product should feel like a polished combination of a coding interview platform, an online IDE, a structured technical learning academy, and an AI-powered personal coding coach.
+
+Build PairArena AI as a real product, not merely a visual mockup.

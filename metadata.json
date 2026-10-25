@@ -1,0 +1,6 @@
+{
+  "name": "PairArena AI",
+  "description": "Collaborative coding interview platform, multi-language compiler, structured technical learning paths, and Gemini AI tutor.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
